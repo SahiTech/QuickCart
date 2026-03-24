@@ -8,11 +8,13 @@ export const AppContext = createContext();
 export const useAppContext = () => {
     return useContext(AppContext)
 }
-
+import { useUser } from "@clerk/nextjs";
 export const AppContextProvider = (props) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY
     const router = useRouter()
+
+    const { user } = useUser()
 
     const [products, setProducts] = useState([])
     const [userData, setUserData] = useState(false)
@@ -81,7 +83,9 @@ export const AppContextProvider = (props) => {
         fetchUserData()
     }, [])
 
+    
     const value = {
+        user,
         currency, router,
         isSeller, setIsSeller,
         userData, fetchUserData,
